@@ -72,7 +72,6 @@ function initializeGame() {
 // keyboard events
 function keydownEventHandler(event, snake) {
   // Controls
-  console.log('event.code: ', event.code)
   switch (event.code) {
     case 'ArrowUp':
       if (currentDirection === 'down') break
