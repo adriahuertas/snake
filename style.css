@@ -77,14 +77,25 @@ button {
   height: 50px;
   font-weight: bold;
 }
-.end-message.hidden {
-  display: none;
+.hidden {
+  visibility: hidden;
 }
 
 #footer {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+}
+
+.well-done-message {
+  display:grid;
+  place-content: center;
+  position: absolute;
+  width:400px;
+  top: 350px;
+  left: calc(50% - 200px);
+  background-color: rgba(68, 68, 68, 0.95);
+  border-radius: 10px;
 }
 
 #controls {

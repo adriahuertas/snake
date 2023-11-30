@@ -12,6 +12,8 @@ const BOARD_WIDTH = 22
 const BOARD_HEIGHT = 32
 let MOVE_INTERVAL = 500
 let playing = false
+const NORMAL_APPLE_POINTS = 100
+const MAGIC_APPLE_POINTS = 1000
 
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
 canvas.height = BLOCK_SIZE * BOARD_HEIGHT
@@ -229,7 +231,7 @@ function checkEatingApple() {
     eatingApple = true
     return 3
   } else if (board[headY][headX] === 6) {
-    eatingApple = true
+    eatingMagicApple = true
     return 6
   }
   return false
@@ -238,12 +240,12 @@ function checkEatingApple() {
 // Game loop
 let moveTimer = 0
 let applePosition = []
-const magicApplePosition = []
+let magicApplePosition = []
 let appleCounter = 1
 let magicAppleCounter = 1
 let lastTime = 0
 let eatingApple = false
-const appleType = 3
+let eatingMagicApple = false
 
 let board
 
@@ -255,7 +257,7 @@ function update(time = 0) {
 
   if (moveTimer > MOVE_INTERVAL) {
     move()
-    points -= 10
+    points -= 100
     moveTimer = 0
   }
 
@@ -273,7 +275,7 @@ function move() {
   }
   updateTail()
   updateApple()
-  // updateMagicApple()
+  updateMagicApple()
   updatePunctuation()
 }
 
@@ -322,9 +324,14 @@ function updateHead() {
 function updateTail() {
   if (eatingApple) {
     eatingApple = false
-    points += (30 - appleCounter) * 100
+    points += (25 - appleCounter) * NORMAL_APPLE_POINTS
     appleCounter = 0
-    magicAppleCounter++
+    return
+  } else if (eatingMagicApple) {
+    eatingMagicApple = false
+    points += (150 - magicAppleCounter) * MAGIC_APPLE_POINTS
+    magicAppleCounter = 0
+    showWellDoneMessage()
     return
   }
   const [x, y] = snake.body.pop()
@@ -345,27 +352,36 @@ function restoreMagicDoors(position) {
     board[BOARD_HEIGHT - 1][BOARD_WIDTH / 2] = 4
   }
 }
-// function updateMagicApple() {
-//   magicAppleCounter++
 
-//   if (magicAppleCounter === 25) {
-//     const emptyCells = []
-//     board.forEach((row, y) => {
-//       row.forEach((value, x) => {
-//         if (value === 0) {
-//           emptyCells.push([x, y])
-//         }
-//       })
-//     })
+function showWellDoneMessage() {
+  const wellDoneMessage = document.querySelector('.well-done-message')
+  wellDoneMessage.classList.remove('hidden')
+  setTimeout(() => {
+    wellDoneMessage.classList.add('hidden')
+  }, 3000)
+}
 
-//     const randomIndex = Math.floor(Math.random() * emptyCells.length)
-//     magicApplePosition = emptyCells[randomIndex]
-//     setApple(magicApplePosition, 6)
-//   } else if (magicAppleCounter === 50) {
-//     clearApple(magicApplePosition)
-//     magicAppleCounter = 0
-//   }
-// }
+function updateMagicApple() {
+  magicAppleCounter++
+
+  if (magicAppleCounter === 100) {
+    const emptyCells = []
+    board.forEach((row, y) => {
+      row.forEach((value, x) => {
+        if (value === 0) {
+          emptyCells.push([x, y])
+        }
+      })
+    })
+
+    const randomIndex = Math.floor(Math.random() * emptyCells.length)
+    magicApplePosition = emptyCells[randomIndex]
+    setApple(magicApplePosition, 6)
+  } else if (magicAppleCounter === 150) {
+    clearApple(magicApplePosition)
+    magicAppleCounter = 0
+  }
+}
 
 function updateApple() {
   appleCounter++
