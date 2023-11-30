@@ -37,6 +37,7 @@ const lastMagicDoorPosition = [0, 0]
 // board
 
 function initializeBoard() {
+  MOVE_INTERVAL = 500
   const board = Array.from({ length: BOARD_HEIGHT }, () =>
     Array(BOARD_WIDTH).fill(0)
   )
@@ -59,9 +60,19 @@ function initializeBoard() {
   return board
 }
 
+function initializeGame() {
+  playing = true
+  endMessageDiv.classList.add('hidden')
+  board = initializeBoard()
+  snake = initializeSnake([10, 10])
+  points = 0
+  update()
+}
+
 // keyboard events
-document.addEventListener('keydown', (event) => {
+function keydownEventHandler(event, snake) {
   // Controls
+  console.log('event.code: ', event.code)
   switch (event.code) {
     case 'ArrowUp':
       if (currentDirection === 'down') break
@@ -98,7 +109,21 @@ document.addEventListener('keydown', (event) => {
       MOVE_INTERVAL = 1
       break
   }
-})
+
+  // Start
+  if (playing === false) {
+    switch (event.code) {
+      case 'Space':
+      case 'Enter':
+        initializeGame()
+        break
+    }
+  }
+}
+
+document.addEventListener('keydown', (event) =>
+  keydownEventHandler(event, snake)
+)
 
 Array.from(speedButtons).forEach((button) => {
   button.addEventListener('click', (event) => {
@@ -121,11 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 startButton.addEventListener('click', () => {
-  playing = true
-  endMessageDiv.classList.add('hidden')
-  board = initializeBoard()
-  snake = initializeSnake([10, 10])
-  update()
+  initializeGame()
 })
 
 function checkCollision() {
