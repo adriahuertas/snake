@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Snake</h1>
+      <div>
+        <!-- <select id="speed">
+          <option value="1000" disabled>Selecciona una velocidad</option>
+          <option value="500">Lento</option>
+          <option value="200">Normal</option>
+          <option value="100">Rápido</option>
+          <option value="50">Más rápido, he dicho</option>
+          <option value="10">Quiero estrellarme</option>
+        </select> -->
+        <button class="speed-button" value="500">Lento</button>
+        <button class="speed-button" value="300">Normal</button>
+        <button class="speed-button" value="200">Rápido</button>
+        <button class="speed-button" value="100">Más rápido</button>
+        <button class="speed-button" value="1">
+          Quiero saber a qué sabe el muro
+        </button>
+      </div>
+      <canvas> </canvas>
+      <div id="punctuation">
+        <p>Puntuacion: <span id="points">0</span></p>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
