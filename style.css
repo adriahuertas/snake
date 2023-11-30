@@ -1,5 +1,4 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,6 +10,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 body {
@@ -19,12 +19,17 @@ body {
   display: grid;
   place-content: center;
   height: 100vh;
+  font-family: 'Courier New', Courier, monospace, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 h1 {
   font-size: 2rem;
   margin: 0;
   padding: 0;
 
+}
+
+button {
+  font-family: inherit;
 }
 
 .temp-message {
@@ -70,6 +75,7 @@ h1 {
 .end-message button {
   border-radius: 10px;
   height: 50px;
+  font-weight: bold;
 }
 .end-message.hidden {
   display: none;
@@ -78,6 +84,7 @@ h1 {
 #footer {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 }
 
 #controls {
