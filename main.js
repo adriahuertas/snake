@@ -227,15 +227,23 @@ function checkEatingApple() {
   if (board[headY][headX] === 3) {
     board[headY][headX] = 0
     eatingApple = true
+    return 3
+  } else if (board[headY][headX] === 6) {
+    eatingApple = true
+    return 6
   }
+  return false
 }
 
 // Game loop
 let moveTimer = 0
 let applePosition = []
+const magicApplePosition = []
 let appleCounter = 1
+let magicAppleCounter = 1
 let lastTime = 0
 let eatingApple = false
+const appleType = 3
 
 let board
 
@@ -265,6 +273,7 @@ function move() {
   }
   updateTail()
   updateApple()
+  // updateMagicApple()
   updatePunctuation()
 }
 
@@ -315,6 +324,7 @@ function updateTail() {
     eatingApple = false
     points += (30 - appleCounter) * 100
     appleCounter = 0
+    magicAppleCounter++
     return
   }
   const [x, y] = snake.body.pop()
@@ -335,6 +345,27 @@ function restoreMagicDoors(position) {
     board[BOARD_HEIGHT - 1][BOARD_WIDTH / 2] = 4
   }
 }
+// function updateMagicApple() {
+//   magicAppleCounter++
+
+//   if (magicAppleCounter === 25) {
+//     const emptyCells = []
+//     board.forEach((row, y) => {
+//       row.forEach((value, x) => {
+//         if (value === 0) {
+//           emptyCells.push([x, y])
+//         }
+//       })
+//     })
+
+//     const randomIndex = Math.floor(Math.random() * emptyCells.length)
+//     magicApplePosition = emptyCells[randomIndex]
+//     setApple(magicApplePosition, 6)
+//   } else if (magicAppleCounter === 50) {
+//     clearApple(magicApplePosition)
+//     magicAppleCounter = 0
+//   }
+// }
 
 function updateApple() {
   appleCounter++
@@ -362,8 +393,8 @@ function updatePunctuation() {
   document.querySelector('#points').innerHTML = points.toLocaleString('en-US')
 }
 
-function setApple(position) {
-  board[position[1]][position[0]] = 3
+function setApple(position, type = 3) {
+  board[position[1]][position[0]] = type
 }
 
 function clearApple(position) {
@@ -388,6 +419,10 @@ function draw() {
       if (value === 5) {
         // Head snake
         drawRoundSquare(context, x, y, 'green', 0.4)
+      }
+      if (value === 6) {
+        // Magic apple
+        drawRoundSquare(context, x, y, 'red', 0.4)
       }
     })
   })
