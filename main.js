@@ -1,14 +1,17 @@
 /* eslint-disable space-before-function-paren */
-import './style.css'
 
 const canvas = document.querySelector('canvas')
 const speedButtons = document.getElementsByClassName('speed-button')
 const context = canvas.getContext('2d')
+const endMessageDiv = document.querySelector('.end-message')
+const endMessageParagraph = document.querySelector('.end-message p')
+const startButton = document.querySelector('.end-message button')
 
 const BLOCK_SIZE = 20
 const BOARD_WIDTH = 22
 const BOARD_HEIGHT = 32
 let MOVE_INTERVAL = 500
+let playing = false
 
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
 canvas.height = BLOCK_SIZE * BOARD_HEIGHT
@@ -16,16 +19,15 @@ canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 context.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 // snake
-const snake = {
-  body: [
-    [6, 5],
-    [5, 5],
-    [4, 5],
-    [3, 5],
-    [2, 5]
-  ],
-  direction: 'right'
+function initializeSnake(position) {
+  const snake = {
+    body: [position],
+    direction: 'right'
+  }
+  return snake
 }
+
+let snake
 
 let currentDirection = 'right'
 let points = 0
@@ -33,27 +35,33 @@ let magicDoorsDisabled = false
 const lastMagicDoorPosition = [0, 0]
 
 // board
-const board = Array.from({ length: BOARD_HEIGHT }, () =>
-  Array(BOARD_WIDTH).fill(0)
-)
 
-// Initialise border
-board[0].fill(2)
-board[board.length - 1].fill(2)
-for (let i = 0; i < board.length; i++) {
-  board[i][0] = 2
-  board[i][board[i].length - 1] = 2
+function initializeBoard() {
+  const board = Array.from({ length: BOARD_HEIGHT }, () =>
+    Array(BOARD_WIDTH).fill(0)
+  )
+
+  // Initialise border
+  board[0].fill(2)
+  board[board.length - 1].fill(2)
+  for (let i = 0; i < board.length; i++) {
+    board[i][0] = 2
+    board[i][board[i].length - 1] = 2
+  }
+  // Horizontal doors
+  board[BOARD_HEIGHT / 2][0] = 4
+  board[BOARD_HEIGHT / 2][BOARD_WIDTH - 1] = 4
+
+  // Vertical doors
+  board[0][BOARD_WIDTH / 2] = 4
+  board[BOARD_HEIGHT - 1][BOARD_WIDTH / 2] = 4
+
+  return board
 }
-// Horizontal doors
-board[BOARD_HEIGHT / 2][0] = 4
-board[BOARD_HEIGHT / 2][BOARD_WIDTH - 1] = 4
-
-// Vertical doors
-board[0][BOARD_WIDTH / 2] = 4
-board[BOARD_HEIGHT - 1][BOARD_WIDTH / 2] = 4
 
 // keyboard events
 document.addEventListener('keydown', (event) => {
+  // Controls
   switch (event.code) {
     case 'ArrowUp':
       if (currentDirection === 'down') break
@@ -72,6 +80,24 @@ document.addEventListener('keydown', (event) => {
       snake.direction = 'right'
       break
   }
+  // Speed
+  switch (event.code) {
+    case 'Digit1':
+      MOVE_INTERVAL = 500
+      break
+    case 'Digit2':
+      MOVE_INTERVAL = 300
+      break
+    case 'Digit3':
+      MOVE_INTERVAL = 200
+      break
+    case 'Digit4':
+      MOVE_INTERVAL = 100
+      break
+    case 'Digit5':
+      MOVE_INTERVAL = 1
+      break
+  }
 })
 
 Array.from(speedButtons).forEach((button) => {
@@ -80,6 +106,26 @@ Array.from(speedButtons).forEach((button) => {
     MOVE_INTERVAL = speedValue
     canvas.focus()
   })
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tempMessage = document.querySelector('.temp-message')
+
+  setTimeout(() => {
+    tempMessage.classList.add('fade-out')
+
+    tempMessage.addEventListener('animationend', () => {
+      tempMessage.style.display = 'none'
+    })
+  }, 5000)
+})
+
+startButton.addEventListener('click', () => {
+  playing = true
+  endMessageDiv.classList.add('hidden')
+  board = initializeBoard()
+  snake = initializeSnake([10, 10])
+  update()
 })
 
 function checkCollision() {
@@ -170,6 +216,9 @@ let applePosition = []
 let appleCounter = 1
 let lastTime = 0
 let eatingApple = false
+
+let board
+
 function update(time = 0) {
   const deltaTime = time - lastTime
   lastTime = time
@@ -182,16 +231,17 @@ function update(time = 0) {
     moveTimer = 0
   }
 
-  draw()
-  window.requestAnimationFrame(update)
+  if (playing) {
+    draw()
+    window.requestAnimationFrame(update)
+  }
 }
 
 function move() {
   updateDirection()
   updateHead()
   if (checkCollision()) {
-    alert('Game over!')
-    window.location.reload()
+    handleGameOver()
   }
   updateTail()
   updateApple()
@@ -200,6 +250,15 @@ function move() {
 
 function updateDirection() {
   currentDirection = snake.direction
+}
+
+function handleGameOver() {
+  playing = false
+
+  endMessageParagraph.innerHTML = `Game Over! 😵‍💫<br>Tu puntuación es ${points.toLocaleString(
+    'en-US'
+  )}`
+  endMessageDiv.classList.remove('hidden')
 }
 
 function updateHead() {
@@ -234,7 +293,7 @@ function updateHead() {
 function updateTail() {
   if (eatingApple) {
     eatingApple = false
-    points += (30 - appleCounter) * 10
+    points += (30 - appleCounter) * 100
     appleCounter = 0
     return
   }
@@ -280,7 +339,7 @@ function updateApple() {
 }
 
 function updatePunctuation() {
-  document.querySelector('#points').innerHTML = points
+  document.querySelector('#points').innerHTML = points.toLocaleString('en-US')
 }
 
 function setApple(position) {
@@ -298,22 +357,41 @@ function draw() {
   board.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value === 1) {
-        context.fillStyle = 'green'
-        context.fillRect(x, y, 1, 1)
+        drawRoundSquare(context, x, y, 'green', 0.1)
       }
       if (value === 2) {
-        context.fillStyle = 'red'
-        context.fillRect(x, y, 1, 1)
+        drawRoundSquare(context, x, y, 'rgb(153, 193, 241)', 0.2)
       }
       if (value === 3) {
-        context.fillStyle = 'yellow'
-        context.fillRect(x, y, 1, 1)
+        drawRoundSquare(context, x, y, 'yellow', 0.4)
+      }
+      if (value === 5) {
+        // Head snake
+        drawRoundSquare(context, x, y, 'green', 0.4)
       }
     })
   })
+  // Round head snake
   snake.body.forEach(([x, y]) => {
     board[y][x] = 1
   })
+  board[snake.body[0][1]][snake.body[0][0]] = 5
 }
 
-update()
+draw()
+
+function drawRoundSquare(context, x, y, color, cornerRadius = 0.2) {
+  context.fillStyle = color
+
+  context.beginPath()
+  context.moveTo(x + cornerRadius, y)
+  context.lineTo(x + 1 - cornerRadius, y)
+  context.quadraticCurveTo(x + 1, y, x + 1, y + cornerRadius)
+  context.lineTo(x + 1, y + 1 - cornerRadius)
+  context.quadraticCurveTo(x + 1, y + 1, x + 1 - cornerRadius, y + 1)
+  context.lineTo(x + cornerRadius, y + 1)
+  context.quadraticCurveTo(x, y + 1, x, y + 1 - cornerRadius)
+  context.lineTo(x, y + cornerRadius)
+  context.quadraticCurveTo(x, y, x + cornerRadius, y)
+  context.fill()
+}

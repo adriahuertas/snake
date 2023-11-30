@@ -20,3 +20,154 @@ body {
   place-content: center;
   height: 100vh;
 }
+h1 {
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+
+}
+
+.temp-message {
+  display:grid;
+  place-content: center;
+  position: absolute;
+  width:400px;
+  top: 200px;
+  left: calc(50% - 200px);
+}
+.temp-message.fade-out {
+  animation: fadeOut 5s;
+}
+
+.temp-message p {
+  background-color: rgba(68, 68, 68, 0.95);
+  border-radius: 10px;
+  padding: 50px;
+}
+
+.end-message {
+  display:grid;
+  place-content: center;
+  row-gap: 20px;
+  position: absolute;
+  width:500px;
+  height: 300px;
+  border-radius: 10px;
+  top: calc(50% - 150px);
+  left: calc(50% - 250px);
+  background-color: rgba(68, 68, 68, 0.95);
+
+}
+
+.end-message p {
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+
+.end-message button {
+  border-radius: 10px;
+  height: 50px;
+}
+.end-message.hidden {
+  display: none;
+}
+
+#footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+#controls {
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+
+}
+#speed-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.speed-button {
+  width: 100%;
+  height: 50px;
+  font-size: 14px;
+}
+
+.doble {
+  grid-column: span 2;
+}
+
+#controls-top {
+  flex:1;
+}
+
+
+
+#controls-bottom {
+  display: flex;
+}
+
+.controls-item {
+  width: 50px;
+  height: 50px;
+  font-size: 50px;
+}
+
+@keyframes snakeMove {
+  10% {
+    transform: translateX(0) translateY(0);
+  }
+  20% {
+    transform: translateX(120px) translateY(0);
+  }
+  30% {
+    transform: translateX(0) translateY(0);
+  }
+  40% {
+    transform: translateX(-120px) translateY(0);
+  }
+  50% {
+    transform: translateX(0) translateY(0);
+  }
+  60% {
+    transform: translateX(0) translateY(50px);
+  }
+  70% {
+    transform: translateX(0) translateY(0);
+  }
+  85% {
+    transform: translateX(0) translateY(-50px);
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+#app #snake-icon {
+  animation: snakeMove 5s normal;
+  font-size: 30px;
+}
+h1 {
+  text-align: center
+}
+
+h2 {
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}

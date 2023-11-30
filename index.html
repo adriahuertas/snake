@@ -3,32 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Snake</title>
   </head>
   <body>
+    <div class="temp-message">
+      <p>Puedes usar los numeros del teclado para cambiar la velocidad</p>
+    </div>
+    <div class="end-message">
+      <p>Bienvenido!</p>
+      <button>Jugar</button>
+    </div>
     <div id="app">
-      <h1>Snake</h1>
-      <div>
-        <!-- <select id="speed">
-          <option value="1000" disabled>Selecciona una velocidad</option>
-          <option value="500">Lento</option>
-          <option value="200">Normal</option>
-          <option value="100">Rápido</option>
-          <option value="50">Más rápido, he dicho</option>
-          <option value="10">Quiero estrellarme</option>
-        </select> -->
-        <button class="speed-button" value="500">Lento</button>
-        <button class="speed-button" value="300">Normal</button>
-        <button class="speed-button" value="200">Rápido</button>
-        <button class="speed-button" value="100">Más rápido</button>
-        <button class="speed-button" value="1">
-          Quiero saber a qué sabe el muro
+      <h1>SNAKE</h1>
+      <p id="snake-icon">🐍🐍🐍🐍🐍🐍🐍🐍🐍🐍🐍🐍🐍🐍</p>
+      <div id="speed-buttons">
+        <button class="speed-button" value="500">Lento (1)</button>
+        <button class="speed-button" value="300">Normal (2)</button>
+        <button class="speed-button" value="200">Rápido (3)</button>
+        <button class="speed-button" value="100">Más rápido (4)</button>
+        <button class="speed-button doble" value="1">
+          Quiero ver a qué sabe el muro (5)
         </button>
       </div>
+
       <canvas> </canvas>
-      <div id="punctuation">
-        <p>Puntuacion: <span id="points">0</span></p>
+      <div id="footer">
+        <div id="punctuation">
+          <h2>Puntuacion: <span id="points">0</span></h2>
+        </div>
+        <div>
+          <h2 style="text-align: center">Controles</h2>
+          <div id="controls">
+            <div>
+              <div class="controls-item" id="controls-top">⬆️</div>
+            </div>
+            <div id="controls-bottom">
+              <div class="controls-item">⬅️</div>
+              <div class="controls-item">⬇️</div>
+              <div class="controls-item">➡️</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script type="module" src="/main.js"></script>
