@@ -71,6 +71,13 @@ button {
   text-align: center;
 }
 
+#points {
+  font-size: 25px;
+  text-align: right;
+  font-weight: bold;
+  text-align: center;
+  margin-top: -2px;
+}
 
 .end-message button {
   border-radius: 10px;
