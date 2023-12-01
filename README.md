@@ -4,7 +4,7 @@ This is the snake game made with Vanilla JavaScript
 
 ## Deployment
 
-Deployed in [Netlify](https://vermillion-souffle-083e6e.netlify.app/)
+Deployed on [Netlify](https://vermillion-souffle-083e6e.netlify.app/)
 
 ## ToDo
 
