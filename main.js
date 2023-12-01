@@ -24,7 +24,7 @@ context.scale(BLOCK_SIZE, BLOCK_SIZE)
 function initializeSnake(position) {
   const snake = {
     body: [position],
-    direction: 'right',
+    direction: 'right'
   }
   return snake
 }
