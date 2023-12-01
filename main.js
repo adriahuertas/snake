@@ -24,7 +24,7 @@ context.scale(BLOCK_SIZE, BLOCK_SIZE)
 function initializeSnake(position) {
   const snake = {
     body: [position],
-    direction: 'right'
+    direction: 'right',
   }
   return snake
 }
@@ -76,18 +76,22 @@ function keydownEventHandler(event, snake) {
   // Controls
   switch (event.code) {
     case 'ArrowUp':
+    case 'KeyW':
       if (currentDirection === 'down') break
       snake.direction = 'up'
       break
     case 'ArrowDown':
+    case 'KeyS':
       if (currentDirection === 'up') break
       snake.direction = 'down'
       break
     case 'ArrowLeft':
+    case 'KeyA':
       if (currentDirection === 'right') break
       snake.direction = 'left'
       break
     case 'ArrowRight':
+    case 'KeyD':
       if (currentDirection === 'left') break
       snake.direction = 'right'
       break

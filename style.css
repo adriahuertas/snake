@@ -119,7 +119,7 @@ button {
   border-radius: 10px;
 }
 
-#controls {
+.controls {
   display:flex;
   flex-direction: column;
   align-items:center;
@@ -149,14 +149,27 @@ canvas {
   grid-column: span 2;
 }
 
-#controls-top {
+.controls-top {
   flex:1;
 }
 
 
 
-#controls-bottom {
+.controls-bottom {
   display: flex;
+  margin-bottom: 20px;
+}
+
+.letter {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  
+}
+
+.controls-letter {
+  margin-left: 40px;
 }
 
 .controls-item {
