@@ -13,6 +13,16 @@
   
 }
 
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 20px;
+  overflow-y: auto;
+}
+#snake-icon {
+  grid-area: span 3;
+  align-self: center;
+}
 body {
   margin: 0;
   padding: 0;
@@ -37,7 +47,7 @@ button {
   place-content: center;
   position: absolute;
   width:400px;
-  top: 200px;
+  top: 100px;
   left: calc(50% - 200px);
 }
 .temp-message.fade-out {
@@ -91,7 +101,11 @@ button {
 #footer {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  flex-direction: column;
+  max-width: 200px;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: -20px;
 }
 
 .well-done-message {
@@ -99,7 +113,7 @@ button {
   place-content: center;
   position: absolute;
   width:400px;
-  top: 350px;
+  top: 100px;
   left: calc(50% - 200px);
   background-color: rgba(68, 68, 68, 0.95);
   border-radius: 10px;
@@ -113,17 +127,22 @@ button {
 
 }
 #speed-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, auto);
+  display: flex;
+  flex-direction: column;
   gap: 20px;
-  margin-bottom: 20px;
+ 
+  align-items: flex-end;
+  align-content: flex-end;
 }
 
 .speed-button {
-  width: 100%;
+  width:200px;
   height: 50px;
   font-size: 14px;
+}
+
+canvas {
+  border-radius: 10px;
 }
 
 .doble {
