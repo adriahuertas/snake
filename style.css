@@ -136,6 +136,29 @@ button {
   align-content: flex-end;
 }
 
+.author {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  
+}
+.author img {
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+  background-color: rgb(116, 116, 116);
+  border-radius: 10px;
+}
+
+.author img:hover {
+  background-color: rgba(68, 68, 68, 0.5);
+
+}
+
+
 .speed-button {
   width:200px;
   height: 50px;
