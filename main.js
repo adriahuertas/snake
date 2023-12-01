@@ -14,7 +14,7 @@ let MOVE_INTERVAL = 500
 let playing = false
 const NORMAL_APPLE_POINTS = 100
 const MAGIC_APPLE_POINTS = 1000
-
+let maxPunctuation = 0
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
 canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 
@@ -288,12 +288,21 @@ function updateDirection() {
 }
 
 function handleGameOver() {
+  updateMaxPunctuation()
   playing = false
-
   endMessageParagraph.innerHTML = `Game Over! 😵‍💫<br>Tu puntuación es ${points.toLocaleString(
     'en-US'
   )}`
   endMessageDiv.classList.remove('hidden')
+}
+
+function updateMaxPunctuation() {
+  if (points > maxPunctuation) {
+    maxPunctuation = points
+    document.querySelector('.max-points-points').innerHTML =
+      parseInt(maxPunctuation).toLocaleString('en-US')
+  }
+  console.log(maxPunctuation)
 }
 
 function updateHead() {
